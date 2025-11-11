@@ -98,3 +98,9 @@ etc_f1=f1_score(test_labels1,pred_etc)
 print(f"The f1 score is {(etc_f1)}")
 
 
+import joblib
+
+joblib.dump(etc_clf, "heart_model.pkl")
+joblib.dump(features.columns, "model_columns.pkl")
+
+print("Model saved successfully!")
