@@ -68,7 +68,7 @@ Heart_Prediction/
 
 ## 🖥️ Demo Screenshot
 
-_(Add your screenshot here when uploading to GitHub)_
+![UI](Ui.png)
 
 ----------
 
