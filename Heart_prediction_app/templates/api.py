@@ -15,7 +15,8 @@ model = joblib.load(os.path.join(BASE_DIR, "heart_model.pkl"))
 
 @app.get("/", response_class=HTMLResponse)
 def read_form(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request, "result": None})
+    return templates.TemplateResponse("index.html", {"request": request})
+
 
 @app.post("/", response_class=HTMLResponse)
 def predict(
@@ -33,4 +34,15 @@ def predict(
                       serum_creatinine, serum_sodium, sex, time]])
     prediction = model.predict(data)[0]
     result = "High Risk of Heart Failure" if prediction == 1 else "Low Risk of Heart Failure"
-    return templates.TemplateResponse("index.html", {"request": request, "result": result})
+    return templates.TemplateResponse("index.html", {
+    "request": request,
+    "result": result,
+    "age": age,
+    "creatinine_phosphokinase": creatinine_phosphokinase,
+    "ejection_fraction": ejection_fraction,
+    "platelets": platelets,
+    "serum_creatinine": serum_creatinine,
+    "serum_sodium": serum_sodium,
+    "sex": str(sex),
+    "time": time
+})

@@ -1,89 +1,139 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Heart Failure Risk Prediction</title>
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 
 <style>
-body { background: #f2f6fc; font-family: 'Segoe UI', sans-serif; }
-.card { max-width: 720px; margin: auto; margin-top: 35px; border-radius: 14px; padding: 25px; }
-.section-title { font-weight: 600; font-size: 18px; margin-top: 25px; }
-.footer { text-align: center; margin-top: 50px; color: #333; font-size: 14px; }
-.footer a { margin: 0 8px; color: #0056b3; text-decoration: none; font-weight: 500; }
-.footer a:hover { text-decoration: underline; }
-.badge-info { background-color: #0d6efd; }
+    body { background: #eef2f7; font-family: 'Segoe UI', sans-serif; }
+
+    .card {
+        max-width: 780px;
+        margin: auto;
+        border-radius: 14px;
+        padding: 25px;
+    }
+
+    .info-badge {
+        font-size: 11px;
+        margin-left: 5px;
+    }
+
+    .footer {
+        text-align: center;
+        margin: 50px auto;
+        color: #555;
+    }
+
+    .footer a {
+        margin: 0 8px;
+        color: #0d6efd;
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    .footer a:hover {
+        text-decoration: underline;
+    }
+
 </style>
 </head>
 
 <body>
 
-<div class="card shadow">
-    <h3 class="text-center mb-3">Heart Failure Risk Prediction</h3>
-    <p class="text-muted text-center">Enter patient clinical details to assess the risk of Heart Failure</p>
+<div class="card shadow mt-4">
+    <h3 class="text-center mb-2">❤️ Heart Failure Risk Prediction</h3>
+    <p class="text-muted text-center mb-4">Enter clinical values to evaluate heart failure risk</p>
 
-    <form action="/" method="POST">
+    <form action="/" method="POST" autocomplete="off">
 
+        <!-- Age -->
         <label class="form-label">Age (Years)</label>
-        <input type="number" class="form-control" name="age" placeholder="Example: 60">
+        <input type="number" class="form-control" name="age"
+               value="{{ age if age is defined else '' }}" placeholder="e.g., 60" required>
 
+        <!-- CPK -->
         <label class="form-label mt-3">
             CPK - Creatinine Phosphokinase (mcg/L)
-            <span class="badge rounded-pill bg-secondary">Higher = Muscle/Heart Damage</span>
+            <span class="badge bg-secondary info-badge">Higher = Muscle/Heart Damage</span>
         </label>
-        <input type="number" class="form-control" name="creatinine_phosphokinase" placeholder="Normal: 23 - 200">
+        <input type="number" class="form-control" name="creatinine_phosphokinase"
+               value="{{ creatinine_phosphokinase if creatinine_phosphokinase is defined else '' }}"
+               placeholder="Normal: 23 - 200" required>
 
+        <!-- EF -->
         <label class="form-label mt-3">
             Ejection Fraction (%)
-            <span class="badge rounded-pill bg-secondary">Lower = Weak Heart Pumping</span>
+            <span class="badge bg-secondary info-badge">Lower = Weak Heart Pumping</span>
         </label>
-        <input type="number" class="form-control" name="ejection_fraction" placeholder="Normal: 55-70">
+        <input type="number" class="form-control" name="ejection_fraction"
+               value="{{ ejection_fraction if ejection_fraction is defined else '' }}"
+               placeholder="Normal: 55 - 70" required>
 
+        <!-- Platelets -->
         <label class="form-label mt-3">Platelets (kiloplatelets/mL)</label>
-        <input type="number" class="form-control" name="platelets" placeholder="Normal: 150,000 - 450,000">
+        <input type="number" class="form-control" name="platelets"
+               value="{{ platelets if platelets is defined else '' }}"
+               placeholder="150,000 - 450,000" required>
 
+        <!-- Serum Creatinine -->
         <label class="form-label mt-3">
             Serum Creatinine (mg/dL)
-            <span class="badge rounded-pill bg-secondary">Higher = Poor Kidney Function</span>
+            <span class="badge bg-secondary info-badge">Higher = Poor Kidney Function</span>
         </label>
-        <input type="number" step="0.01" class="form-control" name="serum_creatinine" placeholder="Normal: 0.7 - 1.3">
+        <input type="number" step="0.01" class="form-control" name="serum_creatinine"
+               value="{{ serum_creatinine if serum_creatinine is defined else '' }}"
+               placeholder="0.7 - 1.3" required>
 
+        <!-- Sodium -->
         <label class="form-label mt-3">Serum Sodium (mEq/L)</label>
-        <input type="number" class="form-control" name="serum_sodium" placeholder="Normal: 135 - 145">
+        <input type="number" class="form-control" name="serum_sodium"
+               value="{{ serum_sodium if serum_sodium is defined else '' }}"
+               placeholder="135 - 145" required>
 
+        <!-- Gender -->
         <label class="form-label mt-3">Gender</label>
-        <select class="form-control" name="sex">
-            <option value="1">Male</option>
-            <option value="0">Female</option>
+        <select class="form-select" name="sex">
+            <option value="1" {% if sex == '1' %}selected{% endif %}>Male</option>
+            <option value="0" {% if sex == '0' %}selected{% endif %}>Female</option>
         </select>
 
+        <!-- Time -->
         <label class="form-label mt-3">
             Follow-Up Time (Days)
-            <span class="badge rounded-pill bg-secondary">Duration Patient Was Monitored</span>
+            <span class="badge bg-secondary info-badge">Monitoring Duration</span>
         </label>
-        <input type="number" class="form-control" name="time" placeholder="Example: 50">
+        <input type="number" class="form-control" name="time"
+               value="{{ time if time is defined else '' }}"
+               placeholder="e.g., 50" required>
 
-        <button type="submit" class="btn btn-primary w-100 mt-4">Predict</button>
+        <button type="submit" class="btn btn-primary w-100 mt-4 py-2">
+            🔍 Predict
+        </button>
     </form>
 
     {% if result %}
-    <div class="alert alert-warning mt-4 text-center fs-5">
+    <div class="alert alert-info mt-4 text-center fs-5">
         {{ result }}
     </div>
     {% endif %}
 </div>
 
-<div class="card shadow p-4 mt-5" style="max-width:720px;margin:auto;border-radius:14px;">
-    <h4 class="text-center">Understanding the Attributes</h4>
+<!-- Info Section -->
+<div class="card shadow p-4 mt-4">
+    <h4 class="text-center">📘 Understanding the Clinical Attributes</h4>
     <ul class="list-group mt-3">
-        <li class="list-group-item"><b>Age:</b> Older age increases heart stress.</li>
-        <li class="list-group-item"><b>CPK:</b> High CPK indicates muscle/heart damage.</li>
-        <li class="list-group-item"><b>Ejection Fraction:</b> Low EF means the heart pumps weakly.</li>
-        <li class="list-group-item"><b>Platelets:</b> Helps blood clot; abnormal levels may indicate heart disease.</li>
-        <li class="list-group-item"><b>Serum Creatinine:</b> High levels signal poor kidney support to heart.</li>
-        <li class="list-group-item"><b>Serum Sodium:</b> Imbalance indicates fluid retention and heart strain.</li>
-        <li class="list-group-item"><b>Sex:</b> Male/Female biological classification.</li>
-        <li class="list-group-item"><b>Follow-Up Time:</b> Duration patient was monitored during treatment.</li>
+        <li class="list-group-item"><b>Age:</b> Older age increases heart risk.</li>
+        <li class="list-group-item"><b>CPK:</b> High values indicate muscle/heart injury.</li>
+        <li class="list-group-item"><b>Ejection Fraction:</b> Low EF means weak heart pumping.</li>
+        <li class="list-group-item"><b>Platelets:</b> Imbalance may indicate disease.</li>
+        <li class="list-group-item"><b>Serum Creatinine:</b> High = poor kidney function.</li>
+        <li class="list-group-item"><b>Serum Sodium:</b> Imbalance stresses the heart.</li>
+        <li class="list-group-item"><b>Sex:</b> Biological gender.</li>
+        <li class="list-group-item"><b>Time:</b> Follow-up observation period.</li>
     </ul>
 </div>
 
@@ -94,6 +144,20 @@ body { background: #f2f6fc; font-family: 'Segoe UI', sans-serif; }
     <a href="mailto:potti.eswar3@gmail.com" target="_blank">Gmail</a>
     <p class="text-muted mt-2">Heart Failure Prediction • Extra Trees Classifier + SMOTE</p>
 </div>
+<script>
+    // Detect hard reload
+    const navEntry = performance.getEntriesByType("navigation")[0];
+
+    // If page was reloaded → clear fields
+    if (navEntry && navEntry.type === "reload") {
+
+        // Force-clear each input manually
+        document.querySelectorAll("input, select").forEach(el => {
+            el.value = "";
+        });
+    }
+</script>   
+
 
 </body>
 </html>
