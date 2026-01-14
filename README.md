@@ -1,5 +1,4 @@
 
-
 # ❤️ Heart Failure Risk Prediction (FastAPI + Machine Learning)
 
 This project is a **web-based Heart Failure Risk Prediction System** built using **FastAPI**, **Extra Trees Classifier**, and **SMOTE**.  
